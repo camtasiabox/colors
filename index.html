@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="uk-UA">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>COLOR CONVERTER</title>
+<meta name="description" content="Конвертер кольору - підбір фарб, палітра PANTONE®">
+<meta name="keywords" content="COLOR, CONVERTER, PANTONE®">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="robots" content="noindex, nofollow">
+<link rel="shortcut icon" href="favicon.svg" />
+<meta property="og:url" content="https://48.22web.org/colors/" />
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/css/colorconv.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/rollover.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/spoiler.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/HVS_LCh_surface2026.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_B2A0_perc.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_A2B0_perc.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_B2A0_maxK.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_A2B0_maxK.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra45_B2A1_rel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra45_A2B1_rel.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra47_B2A1_rel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra47_A2B1_rel.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_B2A1_rel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/fogra39_A2B1_rel.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/clut_interpolation.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/Pantone_Plus_R_Solid_XRite_eXact_D50_2gr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/Pantone_Plus_R_Solid_XRite_eXact_D50_10gr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/Pantone_Plus_R_Solid_XRite_eXact_D65_2gr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/Pantone_Plus_R_Solid_XRite_eXact_D65_10gr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/RAL_NCS_DIN_D65_10gr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/RAL_NCS_DIN_D50chad.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/Pantone_v5_2024.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/camtasiabox/colors@main/colorconv/colorconv_v12.js"></script>
+<style>
+html, body { margin:0; padding:0; }
+body { background:#CCCCCC; font-family:Arial, sans-serif; }
+.container {
+    max-width:780px;
+    width:100%;
+    margin:20px auto;
+    background:#EAEAEA;
+    border-radius:10px;
+}
+</style>
+</head>
+<body onLoad="SpotFinder();" style="-webkit-text-size-adjust:100%;">
+<div class="container">
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td width="82"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<table width="100%" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td>
+<table width="780" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td colspan="3" width="761" align="center" valign="top" style="background-color: rgba(244,244,244,0.4);">
+<h4 style="margin-left:49px; margin-bottom:10px; text-align:left; margin-top:8px;">
+<br>
+Конвертер кольору <a href="https://48.22web.org/colors/">(Color converter)</a>
+<br>
+<span style="font-size: 12px;">
+Переведення до інших кольорових моделей кнопкою з ім'ям вихідної моделі.<br>
+Шкала насиченості динамічно масштабується.
+</span>
+<br><br>
+</h4>
+
+<form name="converter">
+  <table width="682" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr><td align="left" height="26px" width="25%" valign="top" class="podpContentTables" >Світлота</td>
+    <td align="right" valign="bottom"><table border="0" cellspacing="0" cellpadding="0"><tr><td class="ColorContentTables" style="background: linear-gradient(to right, #555555, #FFFFFF);"><input type="range" name="ranL" class="range" min="0.01" max="99.99" step="0.1" value="64" oninput="Slider2LCHab(this.form); SliderColorLight();" onchange="Slider2LCHab(document.converter); SliderColorLight(); TDplus();" /></td></tr></table></td>
+  </tr>
+    <tr>
+      <td align="left" height="26px" valign="top" class="podpContentTables" >Насиченість&nbsp;&nbsp;</td>
+      <td align="right" valign="bottom"><div id="raskraskaC"></div></td>
+    </tr>
+    <tr>
+      <td align="left" height="24px" valign="top" ><div class="podpContentTables">Тон</div></td>
+      <td align="right" valign="bottom" class="ColorContentTables" style="background: url(img/slider_fon_566x26h.png)  no-repeat;"><input type="range" name="ranh" min="0" max="360" step="0.1" value="122" oninput="Slider2LCHab(this.form); SliderColorLight();" onchange="Slider2LCHab(this.form); SliderColorLight(); TDplus();" /></td>
+    </tr>
+  </table>
+  <br />
+<table width="692" border="0" cellspacing="0" cellpadding="0" align="center" style="margin-right:10px;">
+<tr>
+  <td class="fixwidth" valign="bottom"><input type="button" name="RGB" value="RGB" class="fixedButton fbm" onclick="ButtonRGB(this.form);"></td>
+  <td class="fixleft"><input type="text" name="RGB_R" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="RGB_G" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="RGB_B" class="textbox"></td>
+  <td class="fixleftX"><input type="checkbox" name="ScaleRGB" value="ScaleRGB" onchange="RGBCheckBox(this.form);" checked="checked"><label style="vertical-align: 2px;">&#215;255</label></td>
+  <td class="fixwidth" valign="bottom"><input type="button" name="HEX" value="HEX" class="fixedButton fbm" onclick="ButtonHEX(this.form);"></td>
+  <td class="fixleft3" colspan="3" align="left" valign="bottom"><input type="text" name="hexcode" class="textbox3"></td>
+  <td class="fixleftX"><input type="checkbox" name="DigitRGB" value="DigitRGB" onchange="DigitRGBCheckBox(this.form);" checked="checked"><label style="vertical-align: 2px;">digit</label></td>
+  </tr>
+  <tr><td colspan="10" height="12px"></td></tr>
+  <tr>
+  <td class="fixwidth" valign="bottom"><input type="button" name="Lab" value="Lab" class="fixedButton" onclick="ButtonLab(this.form);"></td>
+  <td class="fixleft"><input type="text" name="Lab_L" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="Lab_a" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="Lab_b" class="textbox"></td>
+  <td class="fixleftX"><div id="linkdiv"></div></td>
+  <td class="fixwidth" valign="bottom"><input type="button" name="LCH" value="LCh" class="fixedButton" onclick="ButtonLCHab(this.form); "></td>
+  <td class="fixleft"><input type="text" name="LCHab_L" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="LCHab_C" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="LCHab_H" class="textbox"></td>
+  <td class="fixleftX">&nbsp;&nbsp;<a class="linkst" href="javascript:openReport(document.converter);">Report</a></td>
+  </tr>
+  <tr><td colspan="10" height="12px"></td></tr>
+   <tr>
+  <td class="fixwidth" valign="bottom"><input type="button" name="XYZ" value="XYZ" class="fixedButton fbm" onclick="ButtonXYZ(this.form);"></td>
+  <td class="fixleft"><input type="text" name="XYZ_X" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="XYZ_Y" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="XYZ_Z" class="textbox"></td>
+  <td class="fixleftX"><input type="checkbox" name="ScaleXYZ" onchange="XYZCheckBox(this.form);" checked="checked"><label style="vertical-align: 2px;">&#215;100</label></td>
+  <td class="fixwidth" valign="bottom"><input type="button" name="xyY" value="xyY" class="fixedButton" onclick="ButtonxyY(this.form);"></td>
+  <td class="fixleft"><input type="text" name="xyY_x" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="xyY_y" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="xyY_Y" class="textbox"></td>
+  <td class="fixleftX"><input type="checkbox" name="ScaleY" value="ScaleY" onchange="YCheckBox(this.form);"><label style="vertical-align: 2px;">&#215;100</label></td>
+  </tr>
+  <tr><td colspan="10" height="12px"></td></tr>
+   <tr>
+   <td class="fixwidth"><label style="vertical-align: 2px;">digit</label><input type="checkbox" name="DigitCMYK" value="DigitCMYK" onchange="DigitCMYKCheckBox(this.form);"></td>
+  <td colspan="4" style="text-align: left; padding: 0px; padding-right:3px; font-weight:bold;"><select name="Fogra" onChange="CMYKSelect(); AbsPrompt(this.form); refWPriority=true; GetRefWhite(this.form);" style="width: 250px; height:25px; font-size:14px; font-weight:bold; color:#333333;">
+				<option value="0">Coated Fogra 39 Perceptual</option>
+				<option value="1">Coated Fogra 39 MaxK Perc.</option>
+                <option value="2">LWC Fogra 45 Relative</option>
+				<option value="3">Uncoated Fogra 47 Relative</option>
+                <option value="4">Coated Fogra 39 Relative</option>
+                <option value="5" selected>Coated Fogra 39 Absolute</option>
+				</select></td>
+  <td class="fixwidth" valign="bottom"><input type="button" name="CMYK" value="CMYK" class="fixedButton fbm" onclick="ButtonCMYK(this.form);"></td>
+  <td class="fixleft"><input type="text" name="CMYK_C" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="CMYK_M" class="textbox"></td>
+  <td class="fixleft"><input type="text" name="CMYK_Y" class="textbox"></td>
+  <td class="fixleftX"><input type="text" name="CMYK_K" class="textbox"></td>
+  </tr>
+  <tr><td colspan="10" height="12px"></td></tr>
+   <tr>
+   <td class="fixwidth pb1" valign="bottom"><input type="text" name="PantoneCII" class="textbox cii"></td>
+  <td colspan="4" style="text-align: left; padding: 0px; padding-right:3px; font-weight:bold;"><select name="Veer" onChange="refWPriority = false; ButtonLCHab(this.form); alert1raz();  SpotFinder();" style="width: 250px; height:25px; font-size:14px; font-weight:bold; color:#333333;">
+				<option value="0">PANTONE+ &nbsp;&nbsp;D50, 2° (M0)</option>
+				<option value="1">PANTONE® &nbsp;&nbsp;D50, 2° (M0)</option>
+                <option value="2">PANTONE+ &nbsp;&nbsp;D50, 10° (M0)</option>
+				<option value="3">PANTONE® &nbsp;&nbsp;D50, 10° (M0)</option>
+                <option value="4">PANTONE+ &nbsp;&nbsp;D65, 2° (M0)</option>
+				<option value="5">PANTONE® &nbsp;&nbsp;D65, 2° (M0)</option>
+                <option value="6">PANTONE+ &nbsp;&nbsp;D65, 10° (M0)</option>
+				<option value="7">PANTONE® &nbsp;&nbsp;D65, 10° (M0)</option>
+                <option value="8">RAL Classic &nbsp;&nbsp;D65, 10°</option>
+                <option value="9">RAL Design &nbsp;&nbsp;D65, 10°</option>
+                <option value="10">RAL Effect &nbsp;&nbsp;D65, 10°</option>
+                <option value="11">NCS &nbsp;&nbsp;D65, 10°</option>
+                <option value="12">DIN &nbsp;&nbsp;D65, 10°</option>
+                <option value="13">RAL Classic &nbsp;D50, 10°, CIECAM02</option>
+                <option value="14">RAL Design &nbsp;D50, 10°, CIECAM02</option>
+                <option value="15">RAL Effect &nbsp;D50, 10°, CIECAM02</option>
+                <option value="16">NCS &nbsp;D50, 10°, CIECAM02</option>
+                <option value="17">DIN &nbsp;D50, 10°, CIECAM02</option>
+                <option value="18">nothing</option>
+	  			<option value="19" selected>PANTONE v5 &nbsp;&nbsp;D50, 2° (M2)*</option>
+	  	  		<option value="20">PANTONE v5 &nbsp;&nbsp;D50, 2° (M0)</option>
+	  	  		<option value="21">PANTONE v5 &nbsp;&nbsp;D50, 10° (M0)</option>
+	  	  		<option value="22">PANTONE v5 &nbsp;&nbsp;D65, 2° (M0)</option>
+	  	  		<option value="23">PANTONE v5 &nbsp;&nbsp;D65, 10° (M0)</option>
+	  			<option value="24">PANTONE Metallic &nbsp;D50, 2° (M2)*</option>
+	  			<option value="25">PANTONE Metallic &nbsp;D50, 10° (M2)*</option>
+	  			<option value="26">PANTONE v5 Uncoated&nbsp;D50, 2° (M2)</option>
+				</select></td>
+  <td class="fixwidth" valign="bottom"><input type="button" name="Pantone" value="Spot" class="fixedButton" onclick="ButtonPantonePlus2Lab(this.form);"></td>
+  <td class="fixleft3" colspan="3" align="left" valign="bottom"><input type="text" name="Pantone_Name" class="textbox3"></td>
+  <td class="fixleftX" valign="bottom"><input type="text" name="delta" class="textbox delta"></td>
+</table>
+<br />
+<table width="706" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr>
+<td class="fixwidth25"><label>⚒ CSS<a class="linkst tooltip" href="#" target="_blank">v4</a> </label><input type="checkbox" name="predefRGB" onchange="RGB_mapping();"> RGB Model:</td>
+					<td class="fixwidth20">
+						<select name="RGBModel" onchange="RGBModelChange(this.form); ButtonLCHab(this.form); SpotFinder();">
+					    <option value="0">Adobe RGB(1998) *⚒</option>
+							<option value="1">Apple RGB *</option>
+							<option value="2">Best RGB</option>
+							<option value="3">Beta RGB</option>
+							<option value="4">Bruce RGB</option>
+							<option value="5">CIE RGB</option>
+							<option value="6">ColorMatch RGB *</option>
+							<option value="7">Don RGB 4</option>
+							<option value="8">ECI RGB v2</option>
+							<option value="9">Ekta Space PS5</option>
+							<option value="10">NTSC RGB</option>
+							<option value="11">PAL/SECAM RGB</option>
+							<option value="12">ProPhoto RGB *⚒</option>
+							<option value="13">SMPTE-C RGB</option>
+							<option value="14" selected>sRGB *⚒</option>
+							<option value="15">Wide Gamut RGB **</option>
+                            <option value="16">DCI-P3-D65 (ICC 2017) *</option>
+                            <option value="17">Display-P3 (Apple) *⚒</option>
+							<option value="18">Rec. 2020 (BT.2020) *⚒</option>
+						</select>
+					</td>
+                    <td class="fixwidth25"><a class="linkst tooltip" href="javascript:dE();">ΔE<span>Цветовое различие между двумя последними вычислениями</span></a>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Gamma:</td>
+					<td class="fixwidth20">
+						<select name="Gamma" onChange="ButtonLCHab(this.form); SpotFinder();">
+							<option value="0">1.0</option>
+							<option value="1">1.8</option>
+							<option value="2">2.2</option>
+							<option value="3" selected>sRGB</option>
+							<option value="4">L*</option>
+                            <option value="5">2.6</option>
+							<option value="6">ITU-R BT.2020-2 p.4</option>
+						</select>
+					</td>
+</tr>
+<tr><td colspan="4" height="10px"></td></tr>
+<tr>
+<td class="fixwidth25">Adaptation:</td>
+					<td class="fixwidth20">
+						<select name="Adaptation" onChange="ButtonLCHab(this.form); SpotFinder();">
+							<option value="0">Bradford</option>
+							<option value="1"selected >Von Kries</option>
+							<option value="2">XYZ Scaling</option>
+                            <option value="3">CIECAT02</option>
+                            <option value="4">Sharp</option>
+                            <option value="5">CMCCAT2000</option>
+							<option value="6">None</option>
+						</select></td>
+<td class="fixwidth25">Lab Ref. White:</td>
+					<td class="fixwidth20"><select name="RefWhite" onChange="refWPriority=true; GetRefWhite(this.form); ButtonLCHab(this.form); SpotFinder();">
+						  <option value="0">A</option>
+						  <option value="1">B</option>
+						  <option value="2">C</option>
+						  <option value="3" selected>D50 *</option>
+						  <option value="4">D55</option>
+						  <option value="5">D65 **</option>
+						  <option value="6">D75</option>
+						  <option value="7">E</option>
+						  <option value="8">F2</option>
+						  <option value="9">F7</option>
+						  <option value="10">F11</option>
+                          <option value="11">Planck's blackbody</option>
+					  </select></td>
+</tr>
+<tr><td colspan="4" height="10px"></td></tr>
+<tr><td class="fixwidth25">RGB Gamut Alert:</td>
+<td class="fixwidth20"><input type="text" id="Alert" name="gamut_alert" class="gamut"></td>
+<td class="fixwidth25">Ref. White CCT:</td>
+<td class="fixwidth20"><input type="text" name="refWcctF" value="" class="gamut" onChange="refWPriority=true; GetRefWhite(this.form); ButtonLCHab(this.form);" ></td>
+</tr>
+<tr><td colspan="4" height="10px"></td></tr>
+<tr>
+<td class="fixwidth25 pb4"><div id="GAcldiv"></div></td>
+<td class="fixwidth20"><input type="checkbox" name="clipping" onchange="HVS_clipping();"><font size="-2">&nbsp;L&nbsp;</font><input type="text" name="gamut_clip_L" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;C&nbsp;</font><input type="text" name="gamut_clip_C" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;max</font></td>
+<td class="fixwidth25 pb4"><div id="GMldiv"></div></td>
+
+<td class="fixwidth20"><input type="checkbox" name="mapping" onchange="RGB_mapping();"><font size="-2">&nbsp;L&nbsp;</font><input type="text" name="gamut_map_L" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;C&nbsp;</font><input type="text" name="gamut_map_C" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;max</font></td></tr>
+</table>
+<table width="684" border="0" cellspacing="0" cellpadding="0" align="center">
+<tr><td><br /><a name="#1"></a>
+<div id="leftback"></div>
+</td></tr><tr><td>
+<div id="trmem"></div>
+</td></tr><tr>
+  <td colspan="4" style="text-align: right; padding: 0px; padding-right:2px;"><label style="vertical-align: 1px;">Додати до палітри алгоритм відображення:&nbsp;&nbsp;&nbsp;</label> <select name="Harmony" onChange="ButtonLCHab(this.form);" style="width: 342px; height:25px; font-size:14px; font-weight:bold; color:#333333;">
+				<option value="0">Сортування по перегляду</option>
+				<option value="1" selected>Гармонія по світлоті</option>
+                <option value="2">Гармонія по насиченості</option>
+				<option value="3">Гармонія по відтінку</option>
+				</select>
+<br />
+</td></tr>
+  <tr>
+    <td colspan="4">
+  <div align="left" class="spoiler-wrap" style="width:684px;">
+<div class="spoiler-head folded clickable">&nbsp;Підбір пантонів по каталогу&ensp;&#8226;&ensp;Spot Finder Pantone&ensp;&#8226;&ensp;Вибір бібліотеки навпроти кнопки Spot</div>
+<!--spoiler-body-->
+<div class="spoiler-body">
+<div id="chroma_cut_text_div"></div>
+<div class="justify-box" style="margin-top:4px;"><ul>
+    <li>Розмір: <label><input type="radio" name="razmer" value="0" onclick="SpotFinder();" />малий </label></li>
+    <li><label><input type="radio" name="razmer" value="1" onclick="SpotFinder();" checked="checked" />средній </label></li>
+    <li><label><input type="radio" name="razmer" value="2" onclick="SpotFinder();" />великий</label></li>
+    <li><label>
+&emsp;&#8226;&emsp;Розділювачі <input type="checkbox" name="gaps" onclick="SpotFinder();" /></label></li>
+    <li>
+&emsp;&#8226;&emsp;Діапазон відтінків: <label><input type="checkbox" name="diap_all" onclick="diap_all_checker(); SpotFinder();" checked="checked" /> всі</label></li>
+    <li class="helper"></li>
+    </ul></div>
+    <div class="justify-box" style="margin-top:4px;"><ul>
+    <li><label><input type="checkbox" name="diap_red" onclick="SpotFinder();" />червоні&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_orange" onclick="SpotFinder();" />помаранчеві&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_yellow" onclick="SpotFinder();" />жовті&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_green" onclick="SpotFinder();" />зелені&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_cyan" onclick="SpotFinder();" />голубі&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_blue" onclick="SpotFinder();" />сині&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_violet" onclick="SpotFinder();" />фіолетові&nbsp;</label></li>
+    <li><label><input type="checkbox" name="diap_gray" onclick="diap_gray_checker(); SpotFinder();" />сірі</label></li>
+    <li class="helper"></li>
+    </ul></div>
+<div class="justify-box" style="margin-top:4px;"><ul>
+    <li>Сортування: &nbsp;<label><input type="radio" name="sorti" value="0" onclick="SpotFinder();" checked="checked" />ні </label></li>
+    <li><label><input type="radio" name="sorti" value="1" onclick="SpotFinder();" />по світлоті </label></li>
+    <li><label><input type="radio" name="sorti" value="2" onclick="SpotFinder();" />за насиченістю </label></li>
+    <li><label><input type="radio" name="sorti" value="3" onclick="SpotFinder();" />по тону </label></li>
+    <li><label><input type="radio" name="sorti" value="4" onclick="SpotFinder();" />по світлоті і тону </label></li>
+    <li class="helper"></li>
+    </ul></div>
+<div id="finder"></div>
+</div>
+<!--/spoiler-body-->
+</div>
+</td></tr></table>
+</form>
+
+<script>
+stooperSL = false;
+
+if (window.matchMedia("(color-gamut: sRGB)").matches) {
+  document.converter.RGBModel.selectedIndex = 14;
+}
+if (window.matchMedia("(color-gamut: rec2020)").matches) {
+  document.converter.RGBModel.selectedIndex = 18;
+}
+
+var GAcldiv = document.createElement('div');
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+GAcldiv.innerHTML = 'To <a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">HVS</a> Gamut clipping:';
+document.getElementById('GAcldiv').appendChild(GAcldiv);
+
+var GMldiv = document.createElement('div');
+GMldiv.innerHTML = '*To <a href="img/TwoDimensionalTaylor.png" target="_blank" class="linkst">RGB</a> Gamut mapping:';
+document.getElementById('GMldiv').appendChild(GMldiv);
+
+var raskraskaCd = document.createElement('div');
+raskraskaCd.innerHTML = '<table><tr><td class="ColorContentTables" style="background: linear-gradient(to left, #68CA13, #959595);"><input type="range" name="ranC" min="0" max="104" step="0.1" value="63" oninput="Slider2LCHab(this.form);" onchange="Slider2LCHab(this.form); TDplus();" /></td></tr></table>';
+document.getElementById('raskraskaC').appendChild(raskraskaCd);
+
+var rL = (Math.random() * 80 + 20).toFixed(2);
+var rC = (Math.random() * 100).toFixed(2);
+var rH = (Math.random() * 360).toFixed(2);
+
+document.converter.ranL.value = rL;
+document.converter.ranC.value = rC;
+document.converter.ranh.value = rH;
+
+document.converter.LCHab_L.value = rL;
+document.converter.LCHab_C.value = rC;
+document.converter.LCHab_H.value = rH;
+
+if (typeof starterRandom === "function") starterRandom();
+ButtonLCHab(document.converter);
+</script>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+
+<table width="780" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+<td align="center" valign="bottom">
+Як правильно налаштувати відображення кольору в браузері
+<a href="https://help.kepion.com/hc/en-us/articles/360033831631-Faded-Color-Profile-in-Google-Chrome" rel="nofollow" target="_blank">Google Chrome</a>
+або
+<a href="https://hende.kiev.ua/firefox.html" rel="nofollow" target="_blank">Mozilla Firefox</a>
+<br>
+Відповіді на питання:
+<a href="mailto:@fozzy.ua">@fozzy.ua</a>
+<br><br>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</body>
+</html>
