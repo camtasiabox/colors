@@ -1,8 +1,8 @@
-// JavaScript Document created Uncoated 2025_02_25 - D Visual
+// JavaScript Document created Uncoated 2026 - D Visual
 // Encoding: UTF-8
 // charset=UTF-8
 
-var PCSD50 = {X:96.42, Y:100, Z:82.49}; //белая точка profile connection space согласно спецификации ICC
+var PCSD50 = {X:96.42, Y:100, Z:82.49}; //profile connection space ICC
 var wmp = {X:84.552, Y:87.683, Z:74.716}; //fogra39 wp
 var FRP = 4; // селектор CMYK
 var refWPriority = false; //приоритет селектора RefWhite или Veer определяется в интерфейсе
@@ -145,7 +145,7 @@ function AbsoluteCMYK2XYZcalc() {
 function AbsPrompt(theform) {
 	document.converter.RefWhite.selectedIndex = 3;
 	if (theform.Fogra.selectedIndex == 5) {
-		var sel5 = prompt("Можна змінити XYZ білої мітки профіля CMYK в розумних межах,\nвводити нові значення через табулятор, пробіл або кому.\nXYZ белої мітки профілю Fogra 39 рівні 84.552 87.683 74.716",wmp.X+"	"+wmp.Y+"	"+wmp.Z);
+		var sel5 = prompt("Можна змінити XYZ білої мітки профілю CMYK в розумних межах,\nвводити нові значення через табулятор, пробіл або кому.\nXYZ білої мітки профілю Fogra 39 рівні 84.552 87.683 74.716",wmp.X+"	"+wmp.Y+"	"+wmp.Z);
 		var selsplit = sel5.split(/ |\t|	|,/g); //пробел, запятая, табулятор
 		wmp.X = parseFloat(selsplit[0]);
 		wmp.Y = parseFloat(selsplit[1]);
@@ -824,22 +824,6 @@ function clip_map_max() {
 	document.converter.gamut_map_C.value = edgeC[0].toFixed(1)
 }
 
-/*function defineMappingCoordinatesFromSlider() { // x1 != 0 для плавности перехода по слайдеру
-	if(gamut_error == 1 && mapping_selector == true) {
-x1 = fixLCHabC;
-y1 = fixLCHabL;
-
-x2 = edgeC[0];
-y2 = edgeL[0];
-
-x3 = LCHab.C;
-y3 = LCHab.L;
-	} 
-	if(gamut_error == 0) { // gamut_error = false
-	fixLCHabC = LCHab.C+0.2; // + погрешность слайдера / 2
-	fixLCHabL = LCHab.L;
-}	
-}*/
 
 function defineMappingCoordinatesFromButton() {
 	if(gamut_error == 1 && mapping_selector == true) {
@@ -1306,15 +1290,7 @@ function ButtonPantonePlus2Lab(theForm)
 }
 
 function sliderchange() {
-	//GetLCHab(document.converter);
-	/*stooperSL = true;
-	mysl1.setValue((LCHab.L*5).toFixed(0));
-	stooperSL = true;
-	mysl2.setValue((LCHab.C*5).toFixed(0));
-	stooperSL = true;
-	mysl3.setValue((LCHab.H*5).toFixed(0));
-	stooperSL = false;
-	*/
+
 	stooperSL = true;
 	document.converter.ranL.value = LCHab.L;
 	document.converter.ranC.value = LCHab.C;
@@ -1339,8 +1315,8 @@ function FillCMYKCells(theForm) {
 		theForm.CMYK_M.style.color = 'red';
 		theForm.CMYK_Y.style.color = 'red';
 		theForm.CMYK_K.style.color = 'red';
-		outCmykGamut = "&emsp;&emsp;(найближча за кольором суміш фарб за межами гамутного відтінку)";
-	} // 2020_04 CMYK
+		outCmykGamut = "&emsp;&emsp;(фарба за обраним кольором у межах тріадного відтінку)<br><br>";
+	} // 2026 CMYK
 	
 	theForm.CMYK_C.value = CMYK.C.toFixed(digitink);
 	theForm.CMYK_M.value = CMYK.M.toFixed(digitink);
@@ -1457,8 +1433,7 @@ function GetLCHab(theForm)
 function HVSclipping() {
 	//2018.10.16 HVS Clipping
 	if (clipping_selector == true) {
-			//if (LCHab.L > 0.0) {
-			//	if (LCHab.C > 0.0) {
+			
 
 		if (document.getElementById('GAcldiv').getElementsByTagName('div').length > 0){
 	document.getElementById('GAcldiv').removeChild(document.getElementById('GAcldiv').getElementsByTagName('div')[0]);
@@ -1476,8 +1451,15 @@ function HVSclipping() {
 		LCHabCtemp = LCHab.C;
 		LCHabHtemp = LCHab.H;
 		outOfC = false;
-		var GAcldiv = document.createElement('div'); 
-GAcldiv.innerHTML = 'To <a href="https://color.byethost3.com/" target="_blank" class="linkst">HVS</a> Gamut clipping:';
+var GAcldiv = document.createElement('div');
+
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+
+GAcldiv.innerHTML = 'To <a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">HVS</a> Gamut clipping:';
 document.getElementById('GAcldiv').appendChild(GAcldiv);
 	}
 	else {
@@ -1486,8 +1468,14 @@ document.getElementById('GAcldiv').appendChild(GAcldiv);
 		LCHab.C = LCHabCtemp;
 		document.converter.LCHab_C.value = LCHab.C.toFixed(1);
 		outOfC = true;
-		var GAcldiv = document.createElement('div'); 
-GAcldiv.innerHTML = 'To <a href="https://color.byethost3.com/" target="_blank" class="linkst">HVS</a> <span style="color: red;">Gamut clipping</span>:';
+var GAcldiv = document.createElement('div');
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+
+GAcldiv.innerHTML = 'To <a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">HVS</a> Gamut clipping:';
 document.getElementById('GAcldiv').appendChild(GAcldiv);
 	}
 	
@@ -2662,8 +2650,14 @@ function hyperlink() {
 		var FRPrel = FRP;
 		if (document.converter.Fogra.selectedIndex == 5) {var FRPrel = 5;}
 		
-	var linkDiv = document.createElement('div'); 
-linkDiv.innerHTML = '&nbsp;&nbsp;<a href="https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+rfwl+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRPrel+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'&'+predefCSSv4+'" class="linkst">Link</a>';
+var linkDiv = document.createElement('div');
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+
+linkDiv.innerHTML = '&nbsp;&nbsp;<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">Link</a>';
 document.getElementById('linkdiv').appendChild(linkDiv);
 }
 
@@ -2680,102 +2674,17 @@ function hyperlinkCMYK() { // copy of function hyperlink but + CMYK at the end
 		var FRPrel = FRP;
 		if (document.converter.Fogra.selectedIndex == 5) {var FRPrel = 5;}
 		
-	var linkDiv = document.createElement('div'); 
-linkDiv.innerHTML = '&nbsp;&nbsp;<a href="https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+rfwl+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRPrel+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'&'+predefCSSv4+'&'+CMYK.C.toFixed(digitink)+'&'+CMYK.M.toFixed(digitink)+'&'+CMYK.Y.toFixed(digitink)+'&'+CMYK.K.toFixed(digitink)+'" class="linkst">Link</a>';
+var linkDiv = document.createElement('div');
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+
+linkDiv.innerHTML = '&nbsp;&nbsp;<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">Link</a>';
 document.getElementById('linkdiv').appendChild(linkDiv);
 }
 
-/* function hyperlinkCheck() {
-	var get = location.search;
-	if (get != '') {
-		
-		var testFacebook = new RegExp('fbclid');
-		if (testFacebook.test(get) == true) {
-			alert("Фейсбук псує посилання з даними get");
-		}
-		
-		selpos = (get.substr(1)).split('&');
-		//alert(selpos.length);
-		
-		if (selpos.length == 12 || selpos.length == 13 || selpos.length == 17) { //17 is CMYK
-			
-		if (selpos[9] == "false"){
-		document.converter.clipping.checked = false;
-		clipping_selector = false;
-		} else {
-		document.converter.clipping.checked = true;
-		clipping_selector = true;
-		}
-		
-		if (selpos[10] == "false"){
-		document.converter.mapping.checked = false;
-		mapping_selector = false;
-		} else {
-		document.converter.mapping.checked = true;
-		mapping_selector = true;
-		}
-		
-		
-		if (selpos[3] < 11) {var rfws = selpos[3];}
-		else {
-			var rfws = 11;
-			document.converter.refWcctF.value = " "+selpos[3]+"K";
-			}
-		
-		document.converter.Lab_L.value = selpos[0];
-		document.converter.Lab_a.value = selpos[1];
-		document.converter.Lab_b.value = selpos[2];
-		//document.converter.RefWhite.selectedIndex = selpos[3];
-		document.converter.RefWhite.selectedIndex = rfws;
-		document.converter.RGBModel.selectedIndex = selpos[4];
-		document.converter.Gamma.selectedIndex = selpos[5];
-		document.converter.Adaptation.selectedIndex = selpos[6];
-		document.converter.Fogra.selectedIndex = selpos[7];
-		document.converter.Veer.selectedIndex = selpos[8];
-		document.converter.Harmony.selectedIndex = selpos[11];
-			
-		if (selpos.length == 13 || selpos.length == 17){ //проверка на 13 а не 12 для старых ссылок без SCCv4
-		if (selpos[12] == "true"){
-		document.converter.predefRGB.checked = true;
-		predefCSSv4 = true;
-		} else {
-		document.converter.predefRGB.checked = false;
-		predefCSSv4 = false;
-		}}
-		
-		CMYKSelect();
-		// AbsPrompt(document.converter);
-		refWPriority=true; 
-		GetRefWhite(document.converter);
-			
-		} else { // non (selpos.length == 12 || selpos.length == 13 || selpos.length == 17)
-		alert("Неверные данные в адресной строке");
-		document.converter.clipping.checked = true;
-		clipping_selector = true;
-		document.converter.mapping.checked = true;
-		mapping_selector = true;
-		} 
-		
-			if (selpos.length == 12 || selpos.length == 13){
-		ButtonLab(document.converter);
-			}
-
-			if (selpos.length == 17){
-		document.converter.CMYK_C.value = selpos[13];
-		document.converter.CMYK_M.value = selpos[14];
-		document.converter.CMYK_Y.value = selpos[15];
-		document.converter.CMYK_K.value = selpos[16];
-		ButtonCMYK(document.converter);
-			labPrioritet = false;
-			}
-	}
-	else {
-		document.converter.clipping.checked = true;
-		clipping_selector = true;
-		document.converter.mapping.checked = true;
-		mapping_selector = true;
-	}
-} */
 
 function setCheckBox(checked) {
 var checkbox = document.getElementsByTagName('input');
@@ -2813,18 +2722,6 @@ function alertNullNull() {
 	}
 }
 
-/*function SliderColorChroma() {
-	stooperSL = false;
-	colorLfon = document.converter.hexcode.value;
-	
-	if (document.getElementById('raskraskaL').getElementsByTagName('div').length > 0){
-	document.getElementById('raskraskaL').removeChild(document.getElementById('raskraskaL').getElementsByTagName('div')[0]);
-	}
-	raskraskaLd = document.createElement('div'); 
-raskraskaLd.innerHTML = '<table><tr><td class="ColorContentTables" style="background: linear-gradient(to right, '+colorLfon+', #FFFFFF);"><input type="range" name="ranL" class="range" min="0" max="100" step="0.1" value="'+LCHab.L+'" onchange="Slider2LCHab(document.converter); SliderColorChroma();" /></td></tr></table>';
-document.getElementById('raskraskaL').appendChild(raskraskaLd);
-alertNullNull();
-}*/
 
 function SliderColorLight() {
 	stooperSL = false;
@@ -2861,8 +2758,7 @@ raskraskaCd.innerHTML = '<table border="0" cellspacing="0" cellpadding="0"><tr><
 document.getElementById('raskraskaC').appendChild(raskraskaCd);
 }
 	
-	
-	
+		
 function sliderHex(slLabL,slLChC,slLChh) {
 	
 	var slLaba = slLChC * Math.cos(slLChh * Math.PI / 180.0);
@@ -3242,23 +3138,6 @@ function sortLH(a, b) { //Сортировка по светлоте и тону
 } 
 
 
-/*
-function hexToRgb(hex) {
-    // expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
-    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-        return r + r + g + g + b + b;
-    });
-
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-    } : null;
-}
-*/
-
 function TDplus() {
 	var sliderHexPredef = 0;
 	var trmemtextHex1 = 'onclick=\'plusTD = false; document.converter.hexcode.value = "';
@@ -3396,9 +3275,6 @@ plusLCHabC.unshift(fixLCHabC);
 } // x4 > HedgeC[0]
 } // mapping_selector
 	
-	//chu = plusLCHabC[0]/(HedgeC[0]*0.01);
-	//lhu = plusLCHabL[0]/(HedgeL[0]*0.01);
-	//chust = HedgeC[0]*0.05;
 	//alert(plusLCHabC[1]+"     "+LCHab.C);
 	hexTD.push(sliderHex(plusLCHabL[0],plusLCHabC[0],HugolH)[sliderHexPredef]);
 	
@@ -3412,11 +3288,7 @@ hexTD.push(leftbgColor);
 for (var tr = 0; tr < 12; tr++) {
 	trmemtext += '<td '+trmemtextHex1+hexTD[tr]+trmemtextHex2+' width="57px" height="57px" style="background-color:'+hexTD[tr]+';"></td>';
 	//bgcolor="'+hexTD[tr]+'"></td>';
-	
-	//trmemtextHex1 = 'onclick=\'plusTD = false; document.converter.hexcode.value = "';
-	//trmemtextHex2 =	'"; ButtonHEX(document.converter);\' width="57px" height="57px" ';
-	//style="background-color:'+hexTD[tr]+';"></td>';
-	
+		
 }
 
 if (document.getElementById('trmem').getElementsByTagName('div').length > 0){
@@ -3447,7 +3319,7 @@ function GetHarmony() {
 }
 
 function dE() {
-	window.open('https://color.byethost3.com/?'+mem_old[0][0]+'&'+mem_old[0][1]+'&'+mem_old[0][2]+'&'+mem_old[1][0]+'&'+mem_old[1][1]+'&'+mem_old[1][2], '_blank');
+	window.open('https://48.22web.org/pantone/?'+mem_old[0][0]+'&'+mem_old[0][1]+'&'+mem_old[0][2]+'&'+mem_old[1][0]+'&'+mem_old[1][1]+'&'+mem_old[1][2], '_blank');
 }
 
 function dEmem() {
@@ -3478,23 +3350,23 @@ function openReport(theForm) {
 	var allhexL = theForm.hexcode.value;
 	var allhex = allhexL.toUpperCase();
 	
-  myWin= open("", "newWindow"+allhex+"", "width=1150, height=580, top="+height1+", left="+width1+", menubar=0, toolbar=0, location=0, directories=0, status=0, scrollbars=0, resizable=1");
+  myWin= open("", "newWindow"+allhex+"", "width=920, height=550, top="+height1+", left="+width1+", menubar=0, toolbar=0, location=0, directories=0, status=0, scrollbars=0, resizable=1");
   myWin.document.open();
-  myWin.document.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Color&emsp;•&emsp;Динамический отчет цветового конвертера');
+  myWin.document.write('<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Color converter&emsp;•&emsp;Карта кольорового конвертора');
   myWin.document.writeln("</title>");
   myWin.document.writeln('<link rel="Stylesheet" type="text/css" href="style.css" />');
   myWin.document.writeln('<link rel="Stylesheet" type="text/css" href="colorconv/colorconv4.css" />');
-  myWin.document.writeln("<style type='text/css'>BODY{FONT-FAMILY: Verdana, Arial, Helvetica, Geneva, Sans-Serif;  FONT-SIZE: 11pt; line-height: 2em; margin-top: 1em; margin-right: 0em; margin-left: 0em;} A:link { color: #000; text-decoration: none } A:visited { color: #000; text-decoration: none } A:active { color: #000; text-decoration: none } A:hover { color: #000; text-decoration: underline; font-style: italic }");
+  myWin.document.writeln("<style type='text/css'>BODY{FONT-FAMILY: Arial, Helvetica, Geneva, Sans-Serif;  FONT-SIZE: 14pt; line-height: 2em; margin-top: 1em; margin-right: 0em; margin-left: 0em;} A:link { color: #000; text-decoration: none } A:visited { color: #000; text-decoration: none } A:active { color: #000; text-decoration: none } A:hover { color: #000; text-decoration: underline; font-style: italic }");
   myWin.document.writeln("TABLE{border-style: none; border-spacing: 0px; padding: 4px; margin-top:0.8em; margin-bottom: 1em; margin-left: 1em; margin-right: 0em; TEXT-ALIGN: left; TEXT-INDENT: 1em; }");
-  myWin.document.writeln("TH, TH P{vertical-align:text-top; FONT-SIZE: 14pt; margin-top: 0pt; margin-left: 4pt; margin-right: 4pt; color: "+allhex+";}");
-  myWin.document.writeln("TD, TD P{text-align: left; vertical-align:text-top; margin-top: 0pt; margin-left: 4pt; margin-right: 4pt;}");
+  myWin.document.writeln("TH, TH P{vertical-align:text-top; FONT-SIZE: 16pt; margin-top: 0pt; margin-left: 4pt; margin-right: 4pt; color: "+allhex+";}");
+  myWin.document.writeln("TD, TD P{text-align: left; vertical-align:text-top; FONT-SIZE: 11pt; margin-top: 0pt; margin-left: 4pt; margin-right: 4pt;}");
   myWin.document.writeln("*.white {color: #000; text-align: left;}");
   myWin.document.writeln("*.alert {color: #fff; text-align: center;}");
     myWin.document.writeln("*.alertY {color: #FF0; text-align: center;}");
   myWin.document.writeln("</style>");
-  myWin.document.writeln("</head><body bgcolor='#cccccc' style='overflow-x:hidden;'>");
-  myWin.document.writeln('<table width="100%" align="left" border="0" cellspacing="0" cellpadding="4">');
-  myWin.document.writeln('<tr><th colspan="2">Color&emsp;•&emsp;Динамический отчет цветового конвертера</th></tr><tr><td>&emsp;</td><td>&emsp;</td></tr>');
+  myWin.document.writeln("</head><body bgcolor='#DEEEFF' style='overflow-x:hidden; FONT-SIZE: 11pt;'>");
+  myWin.document.writeln('<table width="100%" align="left" FONT-SIZE="8pt" border="0" cellspacing="0" cellpadding="4">');
+  myWin.document.writeln('<tr><th colspan="2">Color converter&emsp;•&emsp;Карта кольорового конвертора</th></tr><tr><td>&emsp;</td><td>&emsp;</td></tr>');
   myWin.document.writeln('<tr><td width=30%>CIE LCh</td><td>'+LCHab.L+'&emsp;&emsp;'+LCHab.C+'&emsp;&emsp;'+LCHab.H+'</td></tr>');
   myWin.document.writeln('<tr><td>CIE Lab</td><td>'+Lab.L+'&emsp;&emsp;'+Lab.a+'&emsp;&emsp;'+Lab.b+'</td></tr>');
   	scale = (ScaleXYZ == false) ? 1.0 : 100.0;
@@ -3511,11 +3383,11 @@ function openReport(theForm) {
 		digitink = 0;
 	}
 	if (theForm.Fogra.selectedIndex == 5) {
-		var mwpout = '&emsp;&emsp;( XYZ белой точки или бумаги:&emsp;&emsp;'+wmp.X+'&emsp;&emsp;'+wmp.Y+'&emsp;&emsp;'+wmp.Z+' )';
+		var mwpout = '<br><br>&emsp;( XYZ координати білої точки в значеннях для паперу:&emsp;'+wmp.X+'&emsp;'+wmp.Y+'&emsp;'+wmp.Z+' )';
 	} else {var mwpout = '';}
 	Dabs = log10(1/XYZ.Y); //D Visual
 	Drel = log10((0.01*wmp.Y)/XYZ.Y);
-  myWin.document.writeln('<tr><td>CMYK '+outCMYKname+'</td><td>'+CMYK.C.toFixed(digitink)+'&emsp;&emsp;'+CMYK.M.toFixed(digitink)+'&emsp;&emsp;'+CMYK.Y.toFixed(digitink)+'&emsp;&emsp;'+CMYK.K.toFixed(digitink)+outCmykGamut+mwpout+'</td></tr><tr><td>D Visual Abs (Rel) </td><td>'+Dabs.toFixed(2)+' ('+Drel.toFixed(2)+'), в скобках относительная денситометрия для бумаги с яркостью Y='+wmp.Y+'</td></tr>');
+  myWin.document.writeln('<tr><td>CMYK '+outCMYKname+'</td><td>'+CMYK.C.toFixed(digitink)+'&emsp;&emsp;'+CMYK.M.toFixed(digitink)+'&emsp;&emsp;'+CMYK.Y.toFixed(digitink)+'&emsp;&emsp;'+CMYK.K.toFixed(digitink)+outCmykGamut+mwpout+'</td></tr><tr><td>D Visual Abs (Rel) </td><td>'+Dabs.toFixed(2)+' ('+Drel.toFixed(2)+'), в скобках відносна денситометрія для паперу з яскравістю Y='+wmp.Y+'</td></tr>');
   var deltaE = [];
 	for (var i=0; i<VRI; i++) {
 		deltaE[i] = Math.sqrt(Math.pow((Lab.L-psp[VR][i][1]),2)+Math.pow((Lab.a-psp[VR][i][2]),2)+Math.pow((Lab.b-psp[VR][i][3]),2)); // dE 1976 high speed
@@ -3534,27 +3406,24 @@ function openReport(theForm) {
 	} else {
 		CII = "";
 	}
-  myWin.document.writeln('<tr><td>Spot '+nameSpottoOut+'</td><td>'+VRP+PantoneName+'&emsp;&emsp;ΔE = '+delta.toFixed(1)+'&emsp;&emsp;'+CII+'</td></tr>');
+  myWin.document.writeln('<tr><td>Spot '+nameSpottoOut+'</td><td><b>'+VRP+PantoneName+'</b>&emsp;&emsp;ΔE = '+delta.toFixed(1)+'&emsp;&emsp;'+CII+'</td></tr>');
   myWin.document.writeln('<tr><td>Hex</td><td>'+allhex+'</td></tr>');
 	var hexTDout = hexTD;
 	hexTDout.splice(12,1);
-  myWin.document.writeln('<tr><td>Палитра</td><td>'+hexTDout.join()+'</td></tr>');
-  myWin.document.writeln('<tr><td>Хроматическая адаптация</td><td>'+chadtoOut+'</td></tr>');
-  myWin.document.writeln('<tr><td>Опорный белый Lab</td><td>'+refWhitetoOut+'</td></tr>');
+  myWin.document.writeln('<tr><td>Хроматична адаптація</td><td>'+chadtoOut+'</td></tr>');
+  myWin.document.writeln('<tr><td>Опорний білий Lab</td><td>'+refWhitetoOut+'</td></tr>');
   var gammaOut = Gamma;
   if (gammaOut == -2.2) {gammaOut = "sRGB";}
   myWin.document.writeln('<tr><td>Gamma RGB</td><td>'+gammaOut+'</td></tr>');
-  myWin.document.writeln('<tr><td>RGB gamut mapping</td><td>'+mapping_selector+'</td></tr>');
-  myWin.document.writeln('<tr><td>HVS gamut clipping</td><td>'+clipping_selector+'</td></tr>');
-    
-  myWin.document.writeln('<tr><td class=\'white\'><a href="https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+document.converter.RefWhite.selectedIndex+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRP+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'" class="linkst">Гиперссылка</a></td><td>https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+document.converter.RefWhite.selectedIndex+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRP+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'</td></tr>');
+
   myWin.document.writeln("<tr><td>&emsp;</td></tr></table>");
- // myWin.document.writeln("<p class='white'></p>");
 
   myWin.document.writeln("<br><br><br><br><script language='JavaScript'>");
   myWin.document.writeln("function closeIt() {close();}");
-  myWin.document.writeln("</script><center><form><input type=button class='fixedButton' value='Close' onClick='closeIt()'></form></center>");
+  myWin.document.writeln("</script><center><form><input type=button class='fixedButton' style='border-radius: 10px; cursor: pointer; border: 1px solid #999; background-color: #f0f0f0; padding: 2 15 2 15;' value='Close' onClick='closeIt()'></form></center>");
   myWin.document.writeln("</body></html>");
   myWin.document.close();  
 }
 if (location.protocol === "file:") {document.documentElement.innerHTML = "Internal Server Error"; throw new Error("File protocol");}
+
+    
