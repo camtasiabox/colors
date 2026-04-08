@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>COLORS</title>
-<meta name="description" content="Підбір фарб - палітра PANTONE®">
-<meta name="keywords" content="PANTONE, PANTONE®">
+<title>COLOR CONVERTER</title>
+<meta name="description" content="Конвертер кольору - підбір фарб, палітра PANTONE®">
+<meta name="keywords" content="COLOR, CONVERTER, PANTONE®">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="robots" content="noindex, nofollow">
 
-<link rel="icon" href="favicon.ico" type="image/gif">
-<link rel="shortcut icon" href="favicon.ico" type="image/gif">
+<link rel="shortcut icon" href="favicon.svg" />
 <meta property="og:url" content="https://48.22web.org/colors/" />
 
 <link rel="stylesheet" href="css/style.css">
@@ -73,11 +72,11 @@ body { background:#CCCCCC; font-family:Arial, sans-serif; }
 <tr>
 <td colspan="3" width="761" align="center" valign="top" style="background-color: rgba(244,244,244,0.4);">
 
-<h4 style="margin-left:49px;margin-bottom:0;text-align:left;">
+<h4 style="margin-left:49px; margin-bottom:10px; text-align:left; margin-top:8px;">
 <br>
 Конвертер кольору <a href="https://48.22web.org/colors/">(Color converter)</a>
 <br>
-<span style="font-size: 12px; line-height: 1.1;">
+<span style="font-size: 12px;">
 Переведення до інших кольорових моделей кнопкою з ім'ям вихідної моделі.<br>
 Шкала насиченості динамічно масштабується.
 </span>
@@ -94,7 +93,7 @@ body { background:#CCCCCC; font-family:Arial, sans-serif; }
       <td align="right" valign="bottom"><div id="raskraskaC"></div></td>
     </tr>
     <tr>
-      <td align="left" height="26px" valign="top" ><div class="podpContentTables">Тон</div></td>
+      <td align="left" height="24px" valign="top" ><div class="podpContentTables">Тон</div></td>
       <td align="right" valign="bottom" class="ColorContentTables" style="background: url(img/slider_fon_566x26h.png)  no-repeat;"><input type="range" name="ranh" min="0" max="360" step="0.1" value="122" oninput="Slider2LCHab(this.form); SliderColorLight();" onchange="Slider2LCHab(this.form); SliderColorLight(); TDplus();" /></td>
     </tr>
   </table>
@@ -121,7 +120,7 @@ body { background:#CCCCCC; font-family:Arial, sans-serif; }
   <td class="fixleft"><input type="text" name="LCHab_L" class="textbox"></td>
   <td class="fixleft"><input type="text" name="LCHab_C" class="textbox"></td>
   <td class="fixleft"><input type="text" name="LCHab_H" class="textbox"></td>
-  <td class="fixleftX">&nbsp;&nbsp;<a class="linkst" href="#">Report</a></td>
+  <td class="fixleftX">&nbsp;&nbsp;<a class="linkst" href="javascript:openReport(document.converter);">Report</a></td>
   </tr>
   <tr><td colspan="10" height="12px"></td></tr>
    <tr>
@@ -269,6 +268,7 @@ body { background:#CCCCCC; font-family:Arial, sans-serif; }
 <td class="fixwidth25 pb4"><div id="GAcldiv"></div></td>
 <td class="fixwidth20"><input type="checkbox" name="clipping" onchange="HVS_clipping();"><font size="-2">&nbsp;L&nbsp;</font><input type="text" name="gamut_clip_L" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;C&nbsp;</font><input type="text" name="gamut_clip_C" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;max</font></td>
 <td class="fixwidth25 pb4"><div id="GMldiv"></div></td>
+
 <td class="fixwidth20"><input type="checkbox" name="mapping" onchange="RGB_mapping();"><font size="-2">&nbsp;L&nbsp;</font><input type="text" name="gamut_map_L" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;C&nbsp;</font><input type="text" name="gamut_map_C" style="font-size: 10pt; width: 32px; color: #000000; text-align:center;"><font size="-2">&nbsp;max</font></td></tr>
 </table>
 <table width="684" border="0" cellspacing="0" cellpadding="0" align="center">
@@ -339,11 +339,16 @@ if (window.matchMedia("(color-gamut: rec2020)").matches) {
 }
 
 var GAcldiv = document.createElement('div');
-GAcldiv.innerHTML = 'To <a href="https://48.22web.org/pantone/" target="_blank" class="linkst">HVS</a> Gamut clipping:';
+var url = 'https://48.22web.org/pantone/?' +
+    Lab.L.toFixed(2) + '&' +
+    Lab.a.toFixed(2) + '&' +
+    Lab.b.toFixed(2) +
+    '&4&10&4&un&true&0&3';
+GAcldiv.innerHTML = 'To <a href="' + url + '" target="_blank" rel="noopener noreferrer" class="linkst">HVS</a> Gamut clipping:';
 document.getElementById('GAcldiv').appendChild(GAcldiv);
 
 var GMldiv = document.createElement('div');
-GMldiv.innerHTML = '*To <a href="thumbnails/TwoDimensionalTaylor.png" target="_blank" class="linkst">RGB</a> Gamut mapping:';
+GMldiv.innerHTML = '*To <a href="img/TwoDimensionalTaylor.png" target="_blank" class="linkst">RGB</a> Gamut mapping:';
 document.getElementById('GMldiv').appendChild(GMldiv);
 
 var raskraskaCd = document.createElement('div');
