@@ -99,6 +99,7 @@ input[type="range"] {
 	font-size:15px;
 	background: #F2F2F2;
 	border: 1px solid #8F8F8F;
+	cursor: pointer;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
 	border-radius: 12px;
