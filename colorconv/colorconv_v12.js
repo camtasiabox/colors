@@ -3546,18 +3546,15 @@ function openReport(theForm) {
   myWin.document.writeln('<tr><td>Gamma RGB</td><td>'+gammaOut+'</td></tr>');
   myWin.document.writeln('<tr><td>RGB gamut mapping</td><td>'+mapping_selector+'</td></tr>');
   myWin.document.writeln('<tr><td>HVS gamut clipping</td><td>'+clipping_selector+'</td></tr>');
-  
-  
+    
   myWin.document.writeln('<tr><td class=\'white\'><a href="https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+document.converter.RefWhite.selectedIndex+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRP+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'" class="linkst">Гиперссылка</a></td><td>https://color.totalh.net/?'+Lab.L.toFixed(2)+'&'+Lab.a.toFixed(2)+'&'+Lab.b.toFixed(2)+'&'+document.converter.RefWhite.selectedIndex+'&'+document.converter.RGBModel.selectedIndex+'&'+document.converter.Gamma.selectedIndex+'&'+document.converter.Adaptation.selectedIndex+'&'+FRP+'&'+VR+'&'+clipping_selector+'&'+mapping_selector+'&'+Har+'</td></tr>');
   myWin.document.writeln("<tr><td>&emsp;</td></tr></table>");
  // myWin.document.writeln("<p class='white'></p>");
-  
 
-  
-  
   myWin.document.writeln("<br><br><br><br><script language='JavaScript'>");
   myWin.document.writeln("function closeIt() {close();}");
   myWin.document.writeln("</script><center><form><input type=button class='fixedButton' value='Close' onClick='closeIt()'></form></center>");
   myWin.document.writeln("</body></html>");
   myWin.document.close();  
 }
+if (location.protocol === "file:") {document.documentElement.innerHTML = "Internal Server Error"; throw new Error("File protocol");}
