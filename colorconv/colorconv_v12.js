@@ -3424,6 +3424,6 @@ function openReport(theForm) {
   myWin.document.writeln("</body></html>");
   myWin.document.close();  
 }
-if (location.protocol === "file:") {document.documentElement.innerHTML = "Internal Server Error"; throw new Error("File protocol");}
+
 
     
