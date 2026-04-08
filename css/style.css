@@ -10,7 +10,6 @@ body {
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px; /* вместо 10pt */
-    line-height: 1.5;
     text-align: justify;
     background-color: #cccccc;
     -webkit-text-size-adjust: 100%;
