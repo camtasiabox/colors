@@ -3322,6 +3322,8 @@ function dE() {
 	window.open('https://48.22web.org/pantone/?'+mem_old[0][0]+'&'+mem_old[0][1]+'&'+mem_old[0][2]+'&'+mem_old[1][0]+'&'+mem_old[1][1]+'&'+mem_old[1][2], '_blank');
 }
 
+if (window.location.hostname === '48.22web.org' && window.location.pathname.startsWith('/colors/')) console.log("Correct subdomain and folder.");
+
 function dEmem() {
 	mem_old.unshift([Lab.L.toFixed(2),Lab.a.toFixed(2),Lab.b.toFixed(2)]);
 	//alert(mem_old[0]);
